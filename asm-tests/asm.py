@@ -26,7 +26,10 @@ def insn(foo):
     INSNS[foo.__name__] = foo
     return foo
 
-CTL_JMP = 1
+CTL_JMP = 1 << 0
+CTL_MWR = 1 << 1
+CTL_WRA = 1 << 2
+CTL_WRB = 1 << 3
 
 def encode(imm, ctl):
     return '{:02x}{:02x}'.format(imm, ctl)
@@ -58,6 +61,32 @@ def hlt(ln, line, out):
 @insn
 def nop(ln, line, out):
     out.writeln(encode(imm=0, ctl=0))
+
+def ldr(r, line, out):
+    ''' template for lda, ldb instructions '''
+    assert r in {'a', 'b'}
+    insn = 'ld' + r
+
+    try:
+        _, addr = line.split(' ', 1)
+        addr = int(addr)
+
+    except ValueError:
+        raise AsmError('bad {} instruction `{}`'.format(insn, line))
+
+    if addr < 0 or addr > 0xff:
+        raise AsmError('bad {} addr `{}`'.format(insn, addr))
+
+    ctl = dict(a=CTL_WRA, b=CTL_WRB)
+    out.writeln(encode(imm=addr, ctl=ctl[r]))
+
+@insn
+def lda(ln, line, out):
+    return ldr('a', line, out)
+
+@insn
+def ldb(ln, line, out):
+    return ldr('b', line, out)
 
 def main():
     args = parse_args()

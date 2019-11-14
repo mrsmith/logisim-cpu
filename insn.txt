@@ -6,7 +6,7 @@
 direct decoding
 stack?
 
-registers: %a, %b, %fl, %pc
+registers: %a, %b, %fl{z,ov}, %pc
 
 insn:
 jmp +imm
