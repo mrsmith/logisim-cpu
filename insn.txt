@@ -1,0 +1,29 @@
+16 bit instructions
+16 bit PC
+8 bit daddr
+8 bit ddata
+
+direct decoding
+stack?
+
+registers: %a, %b, %fl, %pc
+
+insn:
+jmp +imm
+jmp -imm
+hlt := jmp -1
+
+ljmp %b:%a
+jmp +%a
+jmp -%a
+
+jz +imm
+jz -imm
+
+lda [imm] // [imm] -> a
+ldb [imm] // [imm] -> b
+
+sta [imm] // a -> [imm]
+stb [imm] // b -> [imm]
+
+add // a + b -> a

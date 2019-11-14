@@ -1,0 +1,4 @@
+jmp.asm:2: warn: bad jmp instruction `jmp`
+jmp.asm:5: warn: bad jmp instruction `jmp xxx`
+jmp.asm:8: warn: bad jmp offset `128`
+jmp.asm:11: warn: bad jmp offset `-129`
