@@ -2,12 +2,12 @@
 
 ASM := $(wildcard *.asm) 
 OUT := $(patsubst %.asm,%.out,$(ASM))
-ROM := $(patsubst %,%.rom.circ,$(OUT))
+ROM := $(patsubst %.out,%.rom,$(OUT))
 
 %.out: %.asm ./asm.py
 	./asm.py $< -o $@
 
-%.out.rom.circ: %.out ../mkrom.py
+%.rom: %.out ../mkrom.py
 	../mkrom.py $< -o $@
 
 .PHONY: all

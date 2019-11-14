@@ -4,7 +4,7 @@ import sys
 import argparse as ap
 import logging as log
 from pprint import pprint, pformat
-from os.path import dirname, join as pjoin
+from os.path import dirname, splitext, join as pjoin
 
 def parse_args():
     p = ap.ArgumentParser()
@@ -42,7 +42,7 @@ def main():
     
     outf = args.o
     if args.o is None:
-        outf = args.fname + '.rom.circ'
+        outf = splitext(args.fname) + '.rom'
 
     with open(outf, 'w') as fd:
         fd.write(template.format(data=data))
