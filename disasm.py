@@ -5,6 +5,7 @@ CTL_WRB = 1 << 3
 CTL_LDMEM_LDIMM = 1 << 4
 CTL_STA_STB = 1 << 5
 CTL_LDALU = 1 << 6
+CTL_JZ = 1 << 7
 
 def dbl_comp_to_int(x):
     return x if x < 128 else x - 256
@@ -25,6 +26,8 @@ def disasm(code):
         return 'nop'
     elif ctl == CTL_JMP:
         return 'jmp 0x{:02x}'.format(dbl_comp_to_int(imm))
+    elif ctl == CTL_JZ:
+        return 'jz 0x{:02x}'.format(dbl_comp_to_int(imm))
     elif ctl == CTL_WRA:
         return 'lda 0x{:02x}'.format(imm)
     elif ctl == CTL_WRB:

@@ -33,29 +33,49 @@ CTL_WRB = 1 << 3
 CTL_LDMEM_LDIMM = 1 << 4
 CTL_STA_STB = 1 << 5
 CTL_LDALU = 1 << 6
+CTL_JZ = 1 << 7
 
 def encode(imm, ctl):
     return '{:02x}{:02x}'.format(imm, ctl)
 
 def dbl_comp_8(x):
-    return x if x > 0 else 0x100 + x
+    return x if x >= 0 else 0x100 + x
+
+def test_dbl_comp_8():
+    assert dbl_comp_8(0) == 0
+    assert dbl_comp_8(1) == 1
+    assert dbl_comp_8(128) == 128
+    assert dbl_comp_8(255) == 255
+    assert dbl_comp_8(-1) == 255
+    assert dbl_comp_8(-2) == 254
 
 class AsmError(Exception): pass
 
-@insn
-def jmp(line, out):
+def j(kind, line, out):
+    assert kind in {'mp', 'z'}
+    insn = 'j' + kind
+
     try:
         _, offt = line.split(' ', 1)
         offt = int(offt)
 
     except ValueError:
-        raise AsmError('bad jmp instruction `{}`'.format(line))
+        raise AsmError('bad {} instruction `{}`'.format(insn, line))
 
     if offt < -128 or offt > 127:
-        raise AsmError('bad jmp offset `{}`'.format(offt))
+        raise AsmError('bad {} offset `{}`'.format(insn, offt))
 
     offt = dbl_comp_8(offt)
-    out.writeln(encode(imm=offt, ctl=CTL_JMP))
+    ctl = dict(mp=0, z=CTL_JZ)
+    out.writeln(encode(imm=offt, ctl=ctl[kind]))
+
+@insn
+def jmp(line, out):
+    return j('mp', line, out)
+
+@insn
+def jz(line, out):
+    return j('z', line, out)
 
 @insn
 def hlt(line, out):
