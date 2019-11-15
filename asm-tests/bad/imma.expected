@@ -1,0 +1,4 @@
+imma.asm:2: warn: bad imma instruction `imma`
+imma.asm:5: warn: bad imma instruction `imma xxx`
+imma.asm:8: warn: bad imma imm `256`
+imma.asm:11: warn: bad imma imm `-129`

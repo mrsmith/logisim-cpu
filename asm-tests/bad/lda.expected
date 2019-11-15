@@ -1,0 +1,4 @@
+lda.asm:2: warn: bad lda instruction `lda`
+lda.asm:5: warn: bad lda instruction `lda xxx`
+lda.asm:8: warn: bad lda addr `256`
+lda.asm:11: warn: bad lda addr `-1`
