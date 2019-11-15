@@ -23,6 +23,9 @@ jz -imm
 lda [imm] // [imm] -> a
 ldb [imm] // [imm] -> b
 
+imma imm // imm -> a
+immb imm // imm -> b
+
 sta [imm] // a -> [imm]
 stb [imm] // b -> [imm]
 
