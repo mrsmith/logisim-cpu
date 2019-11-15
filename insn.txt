@@ -9,24 +9,30 @@ stack?
 registers: %a, %b, %fl{z,ov}, %pc
 
 insn:
-jmp +imm
-jmp -imm
-hlt := jmp -1
+[x] jmp +imm
+[x] jmp -imm
+[x] hlt := jmp -1
 
-ljmp %b:%a
-jmp +%a
-jmp -%a
+[ ] ljmp %b:%a
+[ ] jmp +%a
+[ ] jmp -%a
 
-jz +imm
-jz -imm
+[ ] jz +imm
+[ ] jz -imm
 
-lda [imm] // [imm] -> a
-ldb [imm] // [imm] -> b
+[x] lda [imm] // [imm] -> a
+[x] ldb [imm] // [imm] -> b
 
-imma imm // imm -> a
-immb imm // imm -> b
+[x] imma imm // imm -> a
+[x] immb imm // imm -> b
 
-sta [imm] // a -> [imm]
-stb [imm] // b -> [imm]
+[x] sta [imm] // a -> [imm]
+[x] stb [imm] // b -> [imm]
 
-add // a + b -> a
+[ ] add // a + b -> a
+
+TODO:
+
+ - unify assembler & disassembler
+ - add machine tests
+ - hex nuber support in asm

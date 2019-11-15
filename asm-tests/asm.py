@@ -27,10 +27,11 @@ def insn(foo):
     return foo
 
 CTL_JMP = 1 << 0
-# CTL_MWR = 1 << 1
+CTL_MWR = 1 << 1
 CTL_WRA = 1 << 2
 CTL_WRB = 1 << 3
 CTL_LDMEM_LDIMM = 1 << 4
+CTL_STA_STB = 1 << 5
 
 def encode(imm, ctl):
     return '{:02x}{:02x}'.format(imm, ctl)
@@ -116,6 +117,33 @@ def imma(line, out):
 @insn
 def immb(line, out):
     return immr('b', line, out)
+
+def _str(r, line, out):
+    ''' template for sta, stb instructions '''
+    assert r in {'a', 'b'}
+    insn = 'st' + r
+
+    try:
+        _, addr = line.split(' ', 1)
+        addr = int(addr)
+
+    except ValueError:
+        raise AsmError('bad {} instruction `{}`'.format(insn, line))
+
+    if addr < 0 or addr > 0xff:
+        raise AsmError('bad {} addr `{}`'.format(insn, addr))
+
+    ctl = dict(a=0, b=CTL_STA_STB)
+    out.writeln(encode(imm=addr, ctl=CTL_MWR | ctl[r]))
+
+@insn
+def sta(line, out):
+    return _str('a', line, out)
+
+@insn
+def stb(line, out):
+    return _str('b', line, out)
+
 
 def main():
     args = parse_args()
