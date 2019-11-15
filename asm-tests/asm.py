@@ -32,6 +32,7 @@ CTL_WRA = 1 << 2
 CTL_WRB = 1 << 3
 CTL_LDMEM_LDIMM = 1 << 4
 CTL_STA_STB = 1 << 5
+CTL_LDALU = 1 << 6
 
 def encode(imm, ctl):
     return '{:02x}{:02x}'.format(imm, ctl)
@@ -143,6 +144,10 @@ def sta(line, out):
 @insn
 def stb(line, out):
     return _str('b', line, out)
+
+@insn
+def add(line, out):
+    out.writeln(encode(imm=0, ctl=CTL_WRA | CTL_LDALU))
 
 
 def main():

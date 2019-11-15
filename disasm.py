@@ -4,6 +4,7 @@ CTL_WRA = 1 << 2
 CTL_WRB = 1 << 3
 CTL_LDMEM_LDIMM = 1 << 4
 CTL_STA_STB = 1 << 5
+CTL_LDALU = 1 << 6
 
 def dbl_comp_to_int(x):
     return x if x < 128 else x - 256
@@ -36,5 +37,7 @@ def disasm(code):
         return 'sta 0x{:02x}'.format(imm)
     elif ctl == CTL_MWR | CTL_STA_STB:
         return 'stb 0x{:02x}'.format(imm)
+    elif ctl == CTL_WRA | CTL_LDALU:
+        return 'add'
     else:
         return '0x{:02x}.{:02x}'.format(imm, ctl)
