@@ -337,9 +337,7 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
     <comp lib="2" loc="(970,240)" name="Multiplexer">
       <a name="width" val="8"/>
     </comp>
-    <comp lib="4" loc="(970,410)" name="RAM">
-      <a name="bus" val="asynch"/>
-    </comp>
+    <comp lib="4" loc="(970,410)" name="RAM"/>
     <comp lib="0" loc="(470,20)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>

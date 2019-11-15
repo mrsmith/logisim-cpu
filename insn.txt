@@ -36,4 +36,5 @@ TODO:
 
  - unify assembler & disassembler
  - add machine tests ++
- - hex nuber support in asm
+ - hex nuber support in asm ++
+ - serial IO
