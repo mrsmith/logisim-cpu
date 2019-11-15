@@ -35,6 +35,9 @@ CTL_STA_STB = 1 << 5
 CTL_LDALU = 1 << 6
 CTL_JZ = 1 << 7
 
+ALU_OP_ADD = 0
+ALU_OP_SUB = 1
+
 def encode(imm, ctl):
     return '{:02x}{:02x}'.format(imm, ctl)
 
@@ -167,7 +170,11 @@ def stb(line, out):
 
 @insn
 def add(line, out):
-    out.writeln(encode(imm=0, ctl=CTL_WRA | CTL_LDALU))
+    out.writeln(encode(imm=ALU_OP_ADD, ctl=CTL_WRA | CTL_LDALU))
+
+@insn
+def sub(line, out):
+    out.writeln(encode(imm=ALU_OP_SUB, ctl=CTL_WRA | CTL_LDALU))
 
 
 def main():
