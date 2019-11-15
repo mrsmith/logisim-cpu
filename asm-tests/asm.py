@@ -41,7 +41,7 @@ def dbl_comp_8(x):
 class AsmError(Exception): pass
 
 @insn
-def jmp(ln, line, out):
+def jmp(line, out):
     try:
         _, offt = line.split(' ', 1)
         offt = int(offt)
@@ -56,11 +56,11 @@ def jmp(ln, line, out):
     out.writeln(encode(imm=offt, ctl=CTL_JMP))
 
 @insn
-def hlt(ln, line, out):
+def hlt(line, out):
     out.writeln(encode(imm=0, ctl=CTL_JMP))
 
 @insn
-def nop(ln, line, out):
+def nop(line, out):
     out.writeln(encode(imm=0, ctl=0))
 
 def ldr(r, line, out):
@@ -82,11 +82,11 @@ def ldr(r, line, out):
     out.writeln(encode(imm=addr, ctl=ctl[r]))
 
 @insn
-def lda(ln, line, out):
+def lda(line, out):
     return ldr('a', line, out)
 
 @insn
-def ldb(ln, line, out):
+def ldb(line, out):
     return ldr('b', line, out)
 
 def immr(r, line, out):
@@ -110,11 +110,11 @@ def immr(r, line, out):
     out.writeln(encode(imm=imm, ctl=CTL_LDMEM_LDIMM | ctl[r]))
 
 @insn
-def imma(ln, line, out):
+def imma(line, out):
     return immr('a', line, out)
 
 @insn
-def immb(ln, line, out):
+def immb(line, out):
     return immr('b', line, out)
 
 def main():
@@ -134,7 +134,7 @@ def main():
 
                 insn = line.split(' ', 1)[0]
                 try:
-                    INSNS[insn](ln, line, out)
+                    INSNS[insn](line, out)
 
                 except KeyError:
                     print('{}:{}: warn: bad instruction `{}`'.format(args.fname, ln, line))
