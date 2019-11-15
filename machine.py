@@ -6,8 +6,20 @@ from pprint import pprint, pformat
 from collections import namedtuple
 import argparse as ap
 import logging as log
+import attr
 
-State = namedtuple('State', 'pc, a, insn, b')
+from disasm import disasm
+
+@attr.s
+class State:
+    pc = attr.ib(factory=int)
+    insn = attr.ib(factory=int)
+    a = attr.ib(factory=int)
+    b = attr.ib(factory=int)
+
+    def __str__(self):
+        return 'pc: 0x{0.pc:04x} i: 0x{0.insn:04x} I: {1:10} a: 0x{0.a:02x} b: 0x{0.b:02x}'.format(self, disasm(self.insn))
+
 
 def parse_pins(line):
     def parse_reg(s):
@@ -18,7 +30,7 @@ def parse_pins(line):
     toks = line.split('\t')
 
     pc, ra, insn, rb = map(parse_reg, toks)
-    return State(pc, ra, insn, rb)
+    return State(pc, insn, ra, rb)
 
 def parse_args():
     p = ap.ArgumentParser()
@@ -47,8 +59,8 @@ def main():
 
     for line in out:
         log.debug(pformat(line))
-        regs = parse_pins(line)
-        pprint(regs)
+        state = parse_pins(line)
+        print(state)
 
 if __name__ == '__main__':
     sys.exit(main())
