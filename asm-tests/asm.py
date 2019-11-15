@@ -69,7 +69,7 @@ def j(kind, line, out):
         raise AsmError('bad {} offset `{}`'.format(insn, offt))
 
     offt = dbl_comp_8(offt)
-    ctl = dict(mp=0, z=CTL_JZ)
+    ctl = dict(mp=CTL_JMP, z=CTL_JZ)
     out.writeln(encode(imm=offt, ctl=ctl[kind]))
 
 @insn
