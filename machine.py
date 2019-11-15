@@ -7,7 +7,7 @@ from collections import namedtuple
 import argparse as ap
 import logging as log
 
-Regs = namedtuple('Regs', 'pc, a, b')
+State = namedtuple('State', 'pc, a, insn, b')
 
 def parse_pins(line):
     def parse_reg(s):
@@ -17,8 +17,8 @@ def parse_pins(line):
     line = line.strip()
     toks = line.split('\t')
 
-    pc, ra, rb = map(parse_reg, toks)
-    return Regs(pc, ra, rb)
+    pc, ra, insn, rb = map(parse_reg, toks)
+    return State(pc, ra, insn, rb)
 
 def parse_args():
     p = ap.ArgumentParser()
