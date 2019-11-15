@@ -10,15 +10,26 @@ import attr
 
 from disasm import disasm
 
+FLAGS_Z = 1
+FLAGS_OV = 1 << 1
+
+def format_flags(flags):
+    f = []
+    f.append(flags & FLAGS_Z and 'z' or ' ')
+    f.append(flags & FLAGS_OV and 'ov' or '  ')
+    return '[{:4}]'.format(' '.join(f))
+
 @attr.s
 class State:
     pc = attr.ib(factory=int)
     insn = attr.ib(factory=int)
+    flags = attr.ib(factory=int)
     a = attr.ib(factory=int)
     b = attr.ib(factory=int)
 
     def __str__(self):
-        return 'pc: 0x{0.pc:04x} i: 0x{0.insn:04x} I: {1:10} a: 0x{0.a:02x} b: 0x{0.b:02x}'.format(self, disasm(self.insn))
+        return 'pc: 0x{0.pc:04x} i: 0x{0.insn:04x} I: {1:10} f: {2} a: 0x{0.a:02x} b: 0x{0.b:02x}'.format(
+                self, disasm(self.insn), format_flags(self.flags))
 
 
 def parse_pins(line):
@@ -29,8 +40,8 @@ def parse_pins(line):
     line = line.strip()
     toks = line.split('\t')
 
-    pc, ra, insn, rb = map(parse_reg, toks)
-    return State(pc, insn, ra, rb)
+    pc, ra, flags, insn, rb = map(parse_reg, toks)
+    return State(pc, insn, flags, ra, rb)
 
 def parse_args():
     p = ap.ArgumentParser()
