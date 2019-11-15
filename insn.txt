@@ -29,7 +29,7 @@ insn:
 [x] sta [imm] // a -> [imm]
 [x] stb [imm] // b -> [imm]
 
-[ ] add // a + b -> a
+[x] add // a + b -> a
 
 TODO:
 

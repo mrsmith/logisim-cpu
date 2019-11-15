@@ -40,7 +40,7 @@ def parse_pins(line):
     line = line.strip()
     toks = line.split('\t')
 
-    pc, ra, flags, insn, rb = map(parse_reg, toks)
+    flags, pc, ra, insn, rb = map(parse_reg, toks)
     return State(pc, insn, flags, ra, rb)
 
 def parse_args():
