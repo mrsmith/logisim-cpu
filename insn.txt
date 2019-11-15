@@ -17,8 +17,8 @@ insn:
 [ ] jmp +%a
 [ ] jmp -%a
 
-[ ] jz +imm
-[ ] jz -imm
+[x] jz +imm
+[x] jz -imm
 
 [x] lda [imm] // [imm] -> a
 [x] ldb [imm] // [imm] -> b
@@ -30,9 +30,10 @@ insn:
 [x] stb [imm] // b -> [imm]
 
 [x] add // a + b -> a
+[x] sub // a - b -> a
 
 TODO:
 
  - unify assembler & disassembler
- - add machine tests
+ - add machine tests ++
  - hex nuber support in asm
